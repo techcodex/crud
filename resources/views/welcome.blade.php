@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <!-- Styles -->
         <style>
             html, body {
@@ -65,32 +65,64 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Crud Operations
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+
+                <center>
+                    <form method="post" action="{{route('add')}}">
+                        {{csrf_field()}}
+                        <div class="form-group col-md-6">
+                                <label for="user_name">User Name</label>
+                                <input type="text" name="user_name" placeholder="User Name" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" placeholder="Email" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="password">Password</label>
+                            <input type="text" name="password" placeholder="Password" class="form-control">
+                        </div>
+                        <div>
+                             <input type="submit" value="Add User" class="btn btn-info">
+                        </div>
+                    </form>
+                <div class="table-responsive col-md-12">
+                    <table class="table table-responsive table-hover table-bordered " >
+                        <tr class="bg-primary" style="color:white;">
+                            <td>ID</td>
+                            <td>User Name</td>
+                            <td>Email</td>
+                            <td>Password</td>
+                            <td>Created At</td>
+                            <td>Updated At</td>
+                            <td>Edit</td>
+                            <td>Delete</td>
+                        </tr>
+
+                        @foreach($users as $user)
+                            <tr>
+                                <td>{{$user->id}}</td>
+                                <td>{{$user->user_name}}</td>
+                                <td>{{$user->password}}</td>
+                                <td>{{$user->email}}</td>
+                                <td>{{$user->created_at}}</td>
+                                <td>{{$user->updated_at}}</td>
+                                <td><a href="{{route('edit',['id'=>$user->id])}}" class="btn btn-primary">Edit</a></td>
+                                <td><a href="{{route('delete',['id'=>$user->id])}}" class="btn btn-danger">Delete</a> </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
+                </center>
+
             </div>
-        </div>
     </body>
 </html>
